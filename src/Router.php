@@ -109,7 +109,8 @@ class Router
 
         // Apply prefix
         if (isset($groupAttributes['prefix'])) {
-            $uri = trim((string) $groupAttributes['prefix'], '/') . '/' . trim($uri, '/');
+            $uri = '/' . trim((string) $groupAttributes['prefix'], '/') . '/' . ltrim($uri, '/');
+            $uri = preg_replace('#/+#', '/', $uri);
         }
 
         $route = new Route($methods, $uri, $action);
@@ -571,7 +572,8 @@ class Router
     ): Route {
         $method = strtoupper($method);
         $protocol = $protocol !== null && $protocol !== '' && $protocol !== '0' ? strtolower($protocol) : null;
-
+        $uri = '/' . ltrim($uri, '/');
+        
         // Try optimized lookup first
         $route = $this->findRouteOptimized($uri, $method);
 
