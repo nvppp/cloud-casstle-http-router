@@ -87,6 +87,8 @@ class Route implements RouteInterface
      */
     private function compilePattern(): void
     {
+        $this->uri = '/' . ltrim($this->uri, '/');
+        
         // Check if already a regex pattern (starts with ^ or #)
         if (str_starts_with($this->uri, '^') || str_starts_with($this->uri, '#')) {
             $this->isRegex = true;
